@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import joblib
 
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeRegressor
@@ -29,15 +30,15 @@ df['progresso_sequencia'] = df['sequencia'] / df['sequenciatotal']
 df = pd.get_dummies(df, columns=['qualidade'], prefix='qualidade') 
 df = df.drop(['acoatual'], axis=1)
 
-# --- BLOCO PREPARAÇÃO DE DADOS ---
+# BLOCO PREPARAÇÃO DE DADOS
 X = df.drop(['sugestaomodelolegado', 'temperaturasaidafp', 'temperaturamediareal'], axis=1) 
 y = df['temperaturasaidafp'] 
 
 X_treino, X_teste, y_treino, y_teste = train_test_split(X, y, test_size=0.2, train_size=0.8, random_state=42)
 
-# --- TREINANDO OS MODELOS ---
+# TREINANDO OS MODELOS
 
-# 1. Árvore de Regressão Original
+# Árvore de Regressão Original
 tree = DecisionTreeRegressor(max_depth=X.shape[1]*5, random_state=42)
 tree.fit(X_treino, y_treino)
 y_pred_arvore = tree.predict(X_teste)
@@ -89,3 +90,15 @@ axes[2].plot([y_teste.min(), y_teste.max()], [y_teste.min(), y_teste.max()], 'k-
 
 plt.tight_layout()
 plt.show()
+
+# ... [todo o seu código existente até o plt.show()] ...
+
+# --- BLOCO DE EXPORTAÇÃO DOS MODELOS ---
+
+# Salvando a Árvore de Decisão
+joblib.dump(tree, 'meu_modelo_arvore.pkl')
+
+# Salvando o LightGBM
+joblib.dump(lgbm, 'meu_modelo_lightgbm.pkl')
+
+print("\nSucesso! Modelos (Árvore e LightGBM) exportados no formato .pkl usando Joblib!")
