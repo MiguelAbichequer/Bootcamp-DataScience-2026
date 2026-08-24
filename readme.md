@@ -1,4 +1,4 @@
-# Bootcamp 2026 Fundo do Amanhã
+# Bootcamp 2026 Fundo Amanhã
 
 Desafio técnico do trainamento em ciência de dados oferecido pelo Fundo do Amanhã nas dependências do Instituo Caldeira.
 
